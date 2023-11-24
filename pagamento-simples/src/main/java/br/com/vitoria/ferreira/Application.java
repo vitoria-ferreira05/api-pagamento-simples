@@ -1,3 +1,5 @@
+package br.com.vitoria.ferreira;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
