@@ -1,5 +1,6 @@
 package br.com.vitoria.ferreira.model;
 
+import br.com.vitoria.ferreira.model.enums.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,5 +22,6 @@ public class Transaction {
 
     private Double amount;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 }

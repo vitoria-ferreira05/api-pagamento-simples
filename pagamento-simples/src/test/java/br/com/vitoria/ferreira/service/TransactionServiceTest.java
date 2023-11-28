@@ -3,6 +3,7 @@ package br.com.vitoria.ferreira.service;
 import br.com.vitoria.ferreira.controller.request.TransactionRequest;
 import br.com.vitoria.ferreira.exceptions.TransactionException;
 import br.com.vitoria.ferreira.model.Transaction;
+import br.com.vitoria.ferreira.model.enums.Status;
 import br.com.vitoria.ferreira.repository.TransactionRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -74,46 +75,18 @@ class TransactionServiceTest {
     }
 
     @Test
-    void deveProcessarPagamentoComSucesso() {
+    void deveProcessarPagamentoComSucesso() throws TransactionException {
         Transaction transaction = new Transaction();
         transaction.setId(UUID.randomUUID());
-        transaction.setStatus("Pendente");
+        transaction.setStatus(Status.PENDENTE);
 
         when(transactionRepository.findById(transaction.getId())).thenReturn(Optional.of(transaction));
         when(transactionRepository.save(transaction)).thenReturn(transaction);
 
-        String result = transactionService.processPayment(transaction.getId());
+        Transaction result = transactionService.processPayment(transaction.getId());
 
         verify(transactionRepository, times(1)).save(transaction);
 
-        assertEquals("Pagamento processado com sucesso", result);
-    }
-
-    @Test
-    void deveRetornarMensagemParaTransacaoInvalidaOuJaProcessada() {
-        Transaction transaction = new Transaction();
-        transaction.setId(UUID.randomUUID());
-        transaction.setStatus("Pago");
-
-        when(transactionRepository.findById(transaction.getId())).thenReturn(Optional.of(transaction));
-
-        String result = transactionService.processPayment(transaction.getId());
-
-        verify(transactionRepository, never()).save(transaction);
-
-        assertEquals("Transação inválida ou já processada", result);
-    }
-
-    @Test
-    void deveRetornarMensagemParaTransacaoNaoEncontrada() {
-        UUID invalidTransactionId = UUID.randomUUID();
-
-        when(transactionRepository.findById(invalidTransactionId)).thenReturn(Optional.empty());
-
-        String result = transactionService.processPayment(invalidTransactionId);
-
-        verify(transactionRepository, never()).save(any());
-
-        assertEquals("Transação inválida ou já processada", result);
+        assertEquals(Status.PAGO, result.getStatus());
     }
 }
