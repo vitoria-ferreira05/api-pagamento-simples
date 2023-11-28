@@ -16,5 +16,9 @@ git clone https://github.com/vitoria-ferreira05/api-pagamento-simples.git
 - Construa o projeto:
 mvn clean install
 
+## Swagger 
+Com a aplicação rodando, utilize o link http://localhost:8080/swagger-ui/index.html para acessar o Swagger da Api
+
+
 ## Contribuição
 Sinta-se à vontade para contribuir! Se encontrar bugs ou tiver sugestões de melhorias, por favor, abra uma [issue](https://github.com/vitoria-ferreira05/api-pagamento-simples/issues) ou envie um pull request.
