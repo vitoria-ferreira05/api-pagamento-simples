@@ -12,7 +12,6 @@ Java - versão 17 ou superior
 ## Instalação
 - Clone o repositório:
 git clone https://github.com/vitoria-ferreira05/api-pagamento-simples.git
-cd seu-projeto
 
 - Construa o projeto:
 mvn clean install
