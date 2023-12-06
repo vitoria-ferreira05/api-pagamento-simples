@@ -39,7 +39,7 @@ public class TransactionService {
     }
 
     public Transaction processPayment(UUID id) throws TransactionException {
-        Transaction existingTransaction = transactionRepository.findById(id).orElseThrow(() -> new TransactionException("Transação inválida ou já processada"));
+        Transaction existingTransaction = transactionRepository.findById(id).orElseThrow(() -> new TransactionException("Transação inválida"));
         existingTransaction.setStatus(Status.PAGO);
         return transactionRepository.save(existingTransaction);
     }
