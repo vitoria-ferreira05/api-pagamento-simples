@@ -31,7 +31,11 @@ public class TransactionController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Transaction> processPayment(@PathVariable UUID id) throws TransactionException {
-        Transaction updadteTransaction = transactionService.processPayment(id);
-        return new ResponseEntity<>(updadteTransaction, HttpStatus.OK);
+        try {
+            Transaction updatedTransaction = transactionService.processPayment(id);
+            return new ResponseEntity<>(updatedTransaction, HttpStatus.OK);
+        } catch (TransactionException exception) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 }
