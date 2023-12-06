@@ -1,7 +1,8 @@
 package br.com.vitoria.ferreira.controller;
 
 import br.com.vitoria.ferreira.controller.request.TransactionRequest;
-import br.com.vitoria.ferreira.exceptions.TransactionException;
+import br.com.vitoria.ferreira.exceptions.TransactionBadRequestException;
+import br.com.vitoria.ferreira.exceptions.TransactionNotFoundException;
 import br.com.vitoria.ferreira.model.Transaction;
 import br.com.vitoria.ferreira.service.TransactionService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,16 +26,16 @@ public class TransactionController {
     }
 
     @PostMapping
-    public Transaction startTransaction(@RequestBody TransactionRequest transactionRequest) throws TransactionException {
+    public Transaction startTransaction(@RequestBody TransactionRequest transactionRequest) throws TransactionBadRequestException {
         return transactionService.startTransaction(transactionRequest);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Transaction> processPayment(@PathVariable UUID id) throws TransactionException {
+    public ResponseEntity<Transaction> processPayment(@PathVariable UUID id) throws TransactionNotFoundException {
         try {
             Transaction updatedTransaction = transactionService.processPayment(id);
             return new ResponseEntity<>(updatedTransaction, HttpStatus.OK);
-        } catch (TransactionException exception) {
+        } catch (TransactionNotFoundException exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }

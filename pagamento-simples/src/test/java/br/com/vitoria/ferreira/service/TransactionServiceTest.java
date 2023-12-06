@@ -1,7 +1,7 @@
 package br.com.vitoria.ferreira.service;
 
 import br.com.vitoria.ferreira.controller.request.TransactionRequest;
-import br.com.vitoria.ferreira.exceptions.TransactionException;
+import br.com.vitoria.ferreira.exceptions.TransactionBadRequestException;
 import br.com.vitoria.ferreira.model.Transaction;
 import br.com.vitoria.ferreira.model.enums.Status;
 import br.com.vitoria.ferreira.repository.TransactionRepository;
@@ -27,7 +27,7 @@ class TransactionServiceTest {
     private TransactionService transactionService;
 
     @Test
-    void deveRetornarTransacaoSalvaComSucesso() throws TransactionException {
+    void deveRetornarTransacaoSalvaComSucesso() throws TransactionBadRequestException {
         TransactionRequest validRequest = new TransactionRequest();
         validRequest.setAmount(100.0);
 
@@ -43,7 +43,7 @@ class TransactionServiceTest {
     void deveRetornarExcecaoSeValorDaTransacaoForNulo() {
         TransactionRequest invalidRequest = new TransactionRequest();
 
-        TransactionException exception = assertThrows(TransactionException.class, () -> {
+        TransactionBadRequestException exception = assertThrows(TransactionBadRequestException.class, () -> {
             transactionService.startTransaction(invalidRequest);
         });
 
@@ -55,7 +55,7 @@ class TransactionServiceTest {
         TransactionRequest invalidRequest = new TransactionRequest();
         invalidRequest.setAmount(0.0);
 
-        TransactionException exception = assertThrows(TransactionException.class, () -> {
+        TransactionBadRequestException exception = assertThrows(TransactionBadRequestException.class, () -> {
             transactionService.startTransaction(invalidRequest);
         });
 
@@ -67,7 +67,7 @@ class TransactionServiceTest {
         TransactionRequest invalidRequest = new TransactionRequest();
         invalidRequest.setAmount(-1.0);
 
-        TransactionException exception = assertThrows(TransactionException.class, () -> {
+        TransactionBadRequestException exception = assertThrows(TransactionBadRequestException.class, () -> {
             transactionService.startTransaction(invalidRequest);
         });
 
@@ -75,7 +75,7 @@ class TransactionServiceTest {
     }
 
     @Test
-    void deveProcessarPagamentoComSucesso() throws TransactionException {
+    void deveProcessarPagamentoComSucesso() throws TransactionBadRequestException {
         Transaction transaction = new Transaction();
         transaction.setId(UUID.randomUUID());
         transaction.setStatus(Status.PENDENTE);
