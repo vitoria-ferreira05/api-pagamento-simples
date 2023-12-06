@@ -1,7 +1,7 @@
 package br.com.vitoria.ferreira.controller;
 
 import br.com.vitoria.ferreira.controller.request.TransactionRequest;
-import br.com.vitoria.ferreira.exceptions.TransactionException;
+import br.com.vitoria.ferreira.exceptions.TransactionBadRequestException;
 import br.com.vitoria.ferreira.model.Transaction;
 import br.com.vitoria.ferreira.model.enums.Status;
 import br.com.vitoria.ferreira.service.TransactionService;
@@ -30,7 +30,7 @@ class TransactionControllerTest {
 
 
     @Test
-    void deveRegistrarValorDaTransacaoComSucesso() throws TransactionException {
+    void deveRegistrarValorDaTransacaoComSucesso() throws TransactionBadRequestException {
         TransactionRequest transactionRequest = new TransactionRequest();
         transactionRequest.setAmount(10.0);
 
@@ -51,7 +51,7 @@ class TransactionControllerTest {
     }
 
     @Test
-    void deveRetornarPagamentoProcessadoComSucesso() throws TransactionException {
+    void deveRetornarPagamentoProcessadoComSucesso() throws TransactionBadRequestException {
         UUID id = UUID.randomUUID();
         Transaction expectedTransaction = new Transaction();
         when(transactionService.processPayment(id)).thenReturn(expectedTransaction);
